@@ -24,7 +24,7 @@ public class PostController {
 	PostRepository postRepository;
 	
 	@PostMapping("/posts")
-	public ResponseEntity<Post> createTutorial(@RequestBody Post post) {
+	public ResponseEntity<Post> createPost(@RequestBody Post post) {
 		try {
 			Post _tutorial = postRepository
 					.save(new Post(post.getTitle(), post.getDescription(), post.getAuthor(), post.isPublished()));
