@@ -4,6 +4,7 @@ package com.example.CO225SpringBootApp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,7 +56,7 @@ public class PostController {
 	}
 	
 	@PutMapping("/posts/{id}")
-	public ResponseEntity<Post> updateTutorial(@PathVariable("id") long id, @RequestBody Post tutorial) {
+	public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody Post tutorial) {
 		Optional<Post> tutorialData = postRepository.findById(id);
 		if (tutorialData.isPresent()) {
 			Post _tutorial = tutorialData.get();
@@ -66,6 +67,16 @@ public class PostController {
 			return new ResponseEntity<>(postRepository.save(_tutorial), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@DeleteMapping("/posts/{id}")
+	public ResponseEntity<HttpStatus> deletePost(@PathVariable("id") long id) {
+		try {
+			postRepository.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
