@@ -4,6 +4,7 @@ package com.example.CO225SpringBootApp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.CO225SpringBootApp.model.Post;
 import com.example.CO225SpringBootApp.repository.PostRepository;
-
 
 import java.util.List;
 
@@ -23,8 +23,14 @@ public class PostController {
 	@Autowired
 	PostRepository postRepository;
 	
+	@GetMapping("/posts")
+	public List<Post> getAllPost() {
+		return	postRepository.findAll();
+
+	}
+	
 	@PostMapping("/posts")
-	public ResponseEntity<Post> createTutorial(@RequestBody Post post) {
+	public ResponseEntity<Post> createPost(@RequestBody Post post) {
 		try {
 			Post _tutorial = postRepository
 					.save(new Post(post.getTitle(), post.getDescription(), post.getAuthor(), post.isPublished()));
