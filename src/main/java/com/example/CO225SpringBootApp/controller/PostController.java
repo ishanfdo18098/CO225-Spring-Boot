@@ -57,14 +57,14 @@ public class PostController {
 	
 	@PutMapping("/posts/{id}")
 	public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody Post tutorial) {
-		Optional<Post> tutorialData = postRepository.findById(id);
-		if (tutorialData.isPresent()) {
-			Post _tutorial = tutorialData.get();
-			_tutorial.setTitle(tutorial.getTitle());
-			_tutorial.setDescription(tutorial.getDescription());
-			_tutorial.setAuthor(tutorial.getAuthor());
-			_tutorial.setPublished(tutorial.isPublished());
-			return new ResponseEntity<>(postRepository.save(_tutorial), HttpStatus.OK);
+		Optional<Post> postData = postRepository.findById(id);
+		if (postData.isPresent()) {
+			Post _post = postData.get();
+			_post.setTitle(tutorial.getTitle());
+			_post.setDescription(tutorial.getDescription());
+			_post.setAuthor(tutorial.getAuthor());
+			_post.setPublished(tutorial.isPublished());
+			return new ResponseEntity<>(postRepository.save(_post), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -80,6 +80,15 @@ public class PostController {
 		}
 	}
 	
+	@DeleteMapping("/posts")
+	public ResponseEntity<HttpStatus> deleteAllPosts() {
+		try {
+			postRepository.deleteAll();
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
 	
 }
