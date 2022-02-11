@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,5 +53,22 @@ public class PostController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@PutMapping("/posts/{id}")
+	public ResponseEntity<Post> updateTutorial(@PathVariable("id") long id, @RequestBody Post tutorial) {
+		Optional<Post> tutorialData = postRepository.findById(id);
+		if (tutorialData.isPresent()) {
+			Post _tutorial = tutorialData.get();
+			_tutorial.setTitle(tutorial.getTitle());
+			_tutorial.setDescription(tutorial.getDescription());
+			_tutorial.setAuthor(tutorial.getAuthor());
+			_tutorial.setPublished(tutorial.isPublished());
+			return new ResponseEntity<>(postRepository.save(_tutorial), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
 	
 }
