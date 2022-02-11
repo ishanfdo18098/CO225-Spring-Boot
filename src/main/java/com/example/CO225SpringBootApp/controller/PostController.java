@@ -91,4 +91,19 @@ public class PostController {
 	}
 	
 	
+	@GetMapping("/posts/published")
+	public ResponseEntity<List<Post>> findByPublished() {
+		try {
+			List<Post> tutorials = postRepository.findByPublished(true);
+			if (tutorials.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(tutorials, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	
+	
 }
